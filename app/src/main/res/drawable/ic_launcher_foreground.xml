@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Simple sheet-of-paper glyph -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M38,30 L62,30 L70,38 L70,78 L38,78 Z" />
+    <path
+        android:fillColor="#1A237E"
+        android:pathData="M62,30 L62,38 L70,38 Z" />
+    <path
+        android:fillColor="#1A237E"
+        android:pathData="M44,48 L64,48 L64,51 L44,51 Z M44,56 L64,56 L64,59 L44,59 Z M44,64 L58,64 L58,67 L44,67 Z" />
+</vector>
