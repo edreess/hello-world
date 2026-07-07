@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="imposition_job_view_list" model="ir.ui.view">
+        <field name="name">imposition.job.list</field>
+        <field name="model">imposition.job</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="reference" optional="show"/>
+                <field name="partner_id" optional="show"/>
+                <field name="press_id"/>
+                <field name="template_id" optional="show"/>
+                <field name="page_count"/>
+                <field name="quantity"/>
+                <field name="n_up" optional="show"/>
+                <field name="signature_count" optional="show"/>
+                <field name="sheets_needed"/>
+                <field name="plates_needed"/>
+                <field name="state" widget="badge"
+                       decoration-info="state == 'parsed'"
+                       decoration-warning="state == 'planned'"
+                       decoration-success="state == 'locked'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="imposition_job_view_form" model="ir.ui.view">
+        <field name="name">imposition.job.form</field>
+        <field name="model">imposition.job</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_parse_pdf" type="object" string="Parse PDF"
+                            class="btn-primary" invisible="state == 'locked' or not pdf_file"/>
+                    <button name="action_generate_imposition" type="object"
+                            string="Generate Imposition" class="btn-primary"
+                            invisible="state not in ('parsed', 'planned')"/>
+                    <button name="action_lock" type="object" string="Lock"
+                            invisible="state != 'planned'"/>
+                    <button name="action_reset_draft" type="object" string="Reset to Draft"
+                            invisible="state == 'draft'"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,parsed,planned,locked"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group string="Job">
+                            <field name="reference"/>
+                            <field name="partner_id"/>
+                            <field name="pdf_file" filename="pdf_filename"
+                                   readonly="state == 'locked'"/>
+                            <field name="pdf_filename" invisible="1"/>
+                            <field name="quantity" readonly="state == 'locked'"/>
+                        </group>
+                        <group string="PDF Analysis">
+                            <field name="page_count"/>
+                            <field name="trim_width"/>
+                            <field name="trim_height"/>
+                            <field name="orientation"/>
+                        </group>
+                        <group string="Press &amp; Signature">
+                            <field name="press_id" readonly="state == 'locked'"/>
+                            <field name="template_id" readonly="state == 'locked'"/>
+                            <field name="sheet_width" readonly="state == 'locked'"/>
+                            <field name="sheet_height" readonly="state == 'locked'"/>
+                            <field name="colors_front" readonly="state == 'locked'"/>
+                            <field name="colors_back" readonly="state == 'locked'"/>
+                        </group>
+                        <group string="Stripping (mm)">
+                            <field name="bleed" readonly="state == 'locked'"/>
+                            <field name="gutter_x" readonly="state == 'locked'"/>
+                            <field name="gutter_y" readonly="state == 'locked'"/>
+                            <field name="overage_percent" readonly="state == 'locked'"/>
+                        </group>
+                        <group string="Planning Results" invisible="state in ('draft', 'parsed')">
+                            <field name="n_up"/>
+                            <field name="signature_count"/>
+                            <field name="press_passes"/>
+                            <field name="pages_rotated"/>
+                        </group>
+                        <group string="Consumption" invisible="state in ('draft', 'parsed')">
+                            <field name="sheets_per_signature"/>
+                            <field name="sheets_needed"/>
+                            <field name="plates_needed"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Plate Layout" name="plate_layout"
+                              invisible="state in ('draft', 'parsed')">
+                            <field name="layout_json" widget="imposition_editor"
+                                   nolabel="1" readonly="state == 'locked'"/>
+                        </page>
+                        <page string="Pages" name="pages" invisible="state == 'draft'">
+                            <field name="page_ids" nolabel="1" readonly="1" mode="kanban">
+                                <kanban>
+                                    <templates>
+                                        <t t-name="card">
+                                            <div class="text-center p-2">
+                                                <field name="thumbnail" widget="image"
+                                                       options="{'img_class': 'o_imposition_page_thumb'}"/>
+                                                <div>
+                                                    Page <field name="page_number"/>
+                                                    (<field name="width_mm"/> × <field name="height_mm"/> mm)
+                                                </div>
+                                            </div>
+                                        </t>
+                                    </templates>
+                                </kanban>
+                            </field>
+                        </page>
+                        <page string="Placements" name="placements"
+                              invisible="state in ('draft', 'parsed')">
+                            <field name="placement_ids" nolabel="1" readonly="1">
+                                <list>
+                                    <field name="signature"/>
+                                    <field name="surface"/>
+                                    <field name="ord"/>
+                                    <field name="page_number"/>
+                                    <field name="pos_x"/>
+                                    <field name="pos_y"/>
+                                    <field name="width_mm"/>
+                                    <field name="height_mm"/>
+                                    <field name="rotation"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="imposition_job_view_search" model="ir.ui.view">
+        <field name="name">imposition.job.search</field>
+        <field name="model">imposition.job</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="reference"/>
+                <field name="partner_id"/>
+                <field name="press_id"/>
+                <filter string="Planned" name="planned" domain="[('state', '=', 'planned')]"/>
+                <filter string="Locked" name="locked" domain="[('state', '=', 'locked')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Press" name="group_press" context="{'group_by': 'press_id'}"/>
+                    <filter string="Status" name="group_state" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="imposition_job_action" model="ir.actions.act_window">
+        <field name="name">Imposition Jobs</field>
+        <field name="res_model">imposition.job</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Plan your first imposition</p>
+            <p>Upload a job PDF, pick a press and a signature template, then fine-tune the plate layout visually.</p>
+        </field>
+    </record>
+</odoo>

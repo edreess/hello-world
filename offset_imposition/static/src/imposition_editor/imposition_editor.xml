@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+<t t-name="offset_imposition.ImpositionEditor">
+    <div class="o_imposition_editor" tabindex="0" t-on-keydown="onKeyDown">
+        <t t-if="!layout">
+            <div class="alert alert-info m-3" role="status">
+                Generate the imposition to edit the plate layout.
+            </div>
+        </t>
+        <t t-else="">
+            <div class="o_imposition_toolbar d-flex align-items-center gap-2 p-2 border-bottom flex-wrap">
+                <span class="fw-bold me-1">Signature</span>
+                <div class="btn-group btn-group-sm" role="group">
+                    <t t-foreach="signatures" t-as="sig" t-key="sig">
+                        <button type="button" class="btn btn-outline-secondary"
+                                t-att-class="{ active: state.signature === sig }"
+                                t-on-click="() => this.setSignature(sig)">
+                            <t t-esc="sig"/>
+                        </button>
+                    </t>
+                </div>
+                <t t-if="surfaces.length > 1">
+                    <span class="fw-bold ms-2 me-1">Side</span>
+                    <div class="btn-group btn-group-sm" role="group">
+                        <t t-foreach="surfaces" t-as="surf" t-key="surf">
+                            <button type="button" class="btn btn-outline-secondary text-capitalize"
+                                    t-att-class="{ active: state.surface === surf }"
+                                    t-on-click="() => this.setSurface(surf)">
+                                <t t-esc="surf"/>
+                            </button>
+                        </t>
+                    </div>
+                </t>
+                <span class="badge text-bg-light border ms-2 text-capitalize"
+                      t-esc="layout.work_style.replaceAll('_', ' ')"/>
+                <div class="ms-auto d-flex align-items-center gap-2">
+                    <t t-if="selectedPlacement">
+                        <span class="text-muted small">
+                            Page <t t-esc="selectedPlacement.page_number || '—'"/> ·
+                            x <t t-esc="selectedPlacement.x"/> mm ·
+                            y <t t-esc="selectedPlacement.y"/> mm ·
+                            <t t-esc="selectedPlacement.rotation"/>°
+                        </span>
+                        <button type="button" class="btn btn-sm btn-secondary"
+                                t-if="isEditable" t-on-click="rotateSelected"
+                                title="Rotate 90° (R)">
+                            <i class="fa fa-rotate-right"/> Rotate
+                        </button>
+                    </t>
+                    <button type="button" class="btn btn-sm btn-outline-secondary"
+                            t-on-click="zoomOut" title="Zoom out">
+                        <i class="fa fa-search-minus"/>
+                    </button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary"
+                            t-on-click="zoomIn" title="Zoom in">
+                        <i class="fa fa-search-plus"/>
+                    </button>
+                </div>
+            </div>
+
+            <div class="o_imposition_canvas p-3">
+                <svg t-ref="svg"
+                     t-attf-viewBox="0 0 {{ layout.plate.width }} {{ layout.plate.height }}"
+                     t-att-width="svgWidthPx"
+                     t-on-pointerdown="onSvgPointerDown">
+                    <!-- plate -->
+                    <rect data-bg="1" x="0" y="0"
+                          t-att-width="layout.plate.width"
+                          t-att-height="layout.plate.height"
+                          class="o_imp_plate"/>
+                    <!-- sheet -->
+                    <rect data-bg="1"
+                          t-att-x="sheetRect.x" t-att-y="sheetRect.y"
+                          t-att-width="sheetRect.w" t-att-height="sheetRect.h"
+                          class="o_imp_sheet"/>
+                    <!-- margin zones -->
+                    <t t-foreach="marginZones" t-as="zone" t-key="zone_index">
+                        <rect data-bg="1"
+                              t-att-x="zone.x" t-att-y="zone.y"
+                              t-att-width="zone.w" t-att-height="zone.h"
+                              t-att-class="zone.kind === 'gripper' ? 'o_imp_gripper' : 'o_imp_margin'"/>
+                        <text t-if="zone.label"
+                              t-att-x="zone.x + zone.w / 2"
+                              t-att-y="zone.y + zone.h / 2 + 2"
+                              class="o_imp_gripper_label" text-anchor="middle"
+                              t-esc="zone.label"/>
+                    </t>
+                    <!-- placements -->
+                    <t t-foreach="renderPlacements" t-as="p" t-key="p.id">
+                        <g t-att-class="{ o_imp_cell: true, o_imp_selected: p.selected, o_imp_draggable: isEditable }"
+                           t-on-pointerdown="(ev) => this.onPlacementPointerDown(p, ev)">
+                            <rect t-att-x="p.svgX" t-att-y="p.svgY"
+                                  t-att-width="p.w" t-att-height="p.h"
+                                  class="o_imp_cell_bg"/>
+                            <image t-if="p.thumbUrl"
+                                   t-att-href="p.thumbUrl"
+                                   t-att-x="p.cx - p.imgW / 2"
+                                   t-att-y="p.cy - p.imgH / 2"
+                                   t-att-width="p.imgW"
+                                   t-att-height="p.imgH"
+                                   t-attf-transform="rotate({{ p.rotation }} {{ p.cx }} {{ p.cy }})"
+                                   preserveAspectRatio="xMidYMid meet"/>
+                            <rect t-att-x="p.svgX" t-att-y="p.svgY"
+                                  t-att-width="p.w" t-att-height="p.h"
+                                  class="o_imp_cell_frame"/>
+                            <text t-att-x="p.svgX + 2" t-att-y="p.svgY + 7"
+                                  class="o_imp_cell_label">
+                                <t t-if="p.page_number" t-esc="p.page_number"/>
+                                <t t-else="">·</t>
+                            </text>
+                        </g>
+                    </t>
+                </svg>
+            </div>
+        </t>
+    </div>
+</t>
+
+</templates>

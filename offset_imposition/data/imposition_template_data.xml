@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="seq_imposition_job" model="ir.sequence">
+            <field name="name">Imposition Job</field>
+            <field name="code">imposition.job</field>
+            <field name="prefix">IMP/%(year)s/</field>
+            <field name="padding">4</field>
+        </record>
+
+        <record id="template_1up_simplex" model="imposition.template">
+            <field name="name">1-up Simplex</field>
+            <field name="code">1UP-S</field>
+            <field name="rows">1</field>
+            <field name="cols">1</field>
+            <field name="work_style">simplex</field>
+            <field name="sequence">10</field>
+            <field name="description">Single page per sheet side, e.g. posters or proofs.</field>
+        </record>
+
+        <record id="template_2up_sheetwise" model="imposition.template">
+            <field name="name">2-up Sheetwise</field>
+            <field name="code">2UP-WB</field>
+            <field name="fold_catalog">F4-1</field>
+            <field name="rows">1</field>
+            <field name="cols">2</field>
+            <field name="work_style">work_and_back</field>
+            <field name="sequence">20</field>
+            <field name="description">Two pages per side, separate front and back plate sets (4-page F4-1 folding signature).</field>
+        </record>
+
+        <record id="template_4up_sheetwise" model="imposition.template">
+            <field name="name">4-up Sheetwise</field>
+            <field name="code">4UP-WB</field>
+            <field name="fold_catalog">F8-7</field>
+            <field name="rows">2</field>
+            <field name="cols">2</field>
+            <field name="work_style">work_and_back</field>
+            <field name="sequence">30</field>
+            <field name="description">Four pages per side, sheetwise (8-page F8-7 folding signature).</field>
+        </record>
+
+        <record id="template_4up_work_and_turn" model="imposition.template">
+            <field name="name">4-up Work &amp; Turn</field>
+            <field name="code">4UP-WT</field>
+            <field name="rows">2</field>
+            <field name="cols">2</field>
+            <field name="work_style">work_and_turn</field>
+            <field name="sequence">40</field>
+            <field name="description">One plate set prints both sides; the sheet turns on its vertical axis and each sheet yields two copies.</field>
+        </record>
+
+        <record id="template_4up_work_and_tumble" model="imposition.template">
+            <field name="name">4-up Work &amp; Tumble</field>
+            <field name="code">4UP-WTU</field>
+            <field name="rows">2</field>
+            <field name="cols">2</field>
+            <field name="work_style">work_and_tumble</field>
+            <field name="sequence">50</field>
+            <field name="description">One plate set prints both sides; the sheet tumbles on its horizontal axis (gripper edge changes).</field>
+        </record>
+
+        <record id="template_8up_sheetwise" model="imposition.template">
+            <field name="name">8-up Sheetwise</field>
+            <field name="code">8UP-WB</field>
+            <field name="fold_catalog">F16-6</field>
+            <field name="rows">2</field>
+            <field name="cols">4</field>
+            <field name="work_style">work_and_back</field>
+            <field name="sequence">60</field>
+            <field name="description">Eight pages per side, sheetwise (16-page F16-6 folding signature).</field>
+        </record>
+    </data>
+</odoo>

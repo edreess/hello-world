@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_press_config_user,press.config user,model_press_config,group_imposition_user,1,0,0,0
+access_press_config_manager,press.config manager,model_press_config,group_imposition_manager,1,1,1,1
+access_imposition_template_user,imposition.template user,model_imposition_template,group_imposition_user,1,0,0,0
+access_imposition_template_manager,imposition.template manager,model_imposition_template,group_imposition_manager,1,1,1,1
+access_imposition_job_user,imposition.job user,model_imposition_job,group_imposition_user,1,1,1,0
+access_imposition_job_manager,imposition.job manager,model_imposition_job,group_imposition_manager,1,1,1,1
+access_imposition_page_user,imposition.page user,model_imposition_page,group_imposition_user,1,1,1,1
+access_imposition_placement_user,imposition.placement user,model_imposition_placement,group_imposition_user,1,1,1,1

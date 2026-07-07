@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="press_gto52" model="press.config">
+        <field name="name">Heidelberg GTO 52</field>
+        <field name="code">GTO52</field>
+        <field name="manufacturer">Heidelberg</field>
+        <field name="plate_width">459</field>
+        <field name="plate_height">525</field>
+        <field name="max_sheet_width">360</field>
+        <field name="max_sheet_height">520</field>
+        <field name="min_sheet_width">140</field>
+        <field name="min_sheet_height">180</field>
+        <field name="num_units">2</field>
+        <field name="gripper_margin">8</field>
+        <field name="side_lay_margin">4</field>
+        <field name="tail_margin">4</field>
+        <field name="plate_bend_margin">28</field>
+    </record>
+
+    <record id="press_sm74" model="press.config">
+        <field name="name">Heidelberg Speedmaster SM 74</field>
+        <field name="code">SM74</field>
+        <field name="manufacturer">Heidelberg</field>
+        <field name="plate_width">605</field>
+        <field name="plate_height">745</field>
+        <field name="max_sheet_width">530</field>
+        <field name="max_sheet_height">740</field>
+        <field name="min_sheet_width">210</field>
+        <field name="min_sheet_height">280</field>
+        <field name="num_units">4</field>
+        <field name="gripper_margin">10</field>
+        <field name="side_lay_margin">5</field>
+        <field name="tail_margin">5</field>
+        <field name="plate_bend_margin">34</field>
+    </record>
+
+    <record id="press_xl106" model="press.config">
+        <field name="name">Heidelberg Speedmaster XL 106</field>
+        <field name="code">XL106</field>
+        <field name="manufacturer">Heidelberg</field>
+        <field name="plate_width">811</field>
+        <field name="plate_height">1055</field>
+        <field name="max_sheet_width">750</field>
+        <field name="max_sheet_height">1060</field>
+        <field name="min_sheet_width">340</field>
+        <field name="min_sheet_height">480</field>
+        <field name="num_units">8</field>
+        <field name="is_perfecting">True</field>
+        <field name="gripper_margin">12</field>
+        <field name="side_lay_margin">6</field>
+        <field name="tail_margin">6</field>
+        <field name="plate_bend_margin">40</field>
+    </record>
+</odoo>

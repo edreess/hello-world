@@ -1,0 +1,83 @@
+.o_imposition_editor {
+    outline: none;
+
+    .o_imposition_canvas {
+        overflow: auto;
+        max-height: 75vh;
+        background: var(--o-webclient-background-color, #f8f9fa);
+
+        svg {
+            display: block;
+            margin: 0 auto;
+        }
+    }
+
+    .o_imp_plate {
+        fill: #cfd4da;
+        stroke: #495057;
+        stroke-width: 0.6;
+    }
+
+    .o_imp_sheet {
+        fill: #ffffff;
+        stroke: #6c757d;
+        stroke-width: 0.4;
+    }
+
+    .o_imp_margin {
+        fill: rgba(108, 117, 125, 0.15);
+    }
+
+    .o_imp_gripper {
+        fill: rgba(220, 53, 69, 0.18);
+    }
+
+    .o_imp_gripper_label {
+        font-size: 4px;
+        fill: #dc3545;
+        letter-spacing: 1px;
+        pointer-events: none;
+        user-select: none;
+    }
+
+    .o_imp_cell {
+        .o_imp_cell_bg {
+            fill: #ffffff;
+        }
+
+        .o_imp_cell_frame {
+            fill: none;
+            stroke: #0d6efd;
+            stroke-width: 0.4;
+            stroke-dasharray: 2 1.5;
+        }
+
+        .o_imp_cell_label {
+            font-size: 5px;
+            font-weight: bold;
+            fill: #0d6efd;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        image {
+            pointer-events: none;
+        }
+
+        &.o_imp_draggable {
+            cursor: grab;
+        }
+
+        &.o_imp_selected .o_imp_cell_frame {
+            stroke: #fd7e14;
+            stroke-width: 0.9;
+            stroke-dasharray: none;
+        }
+    }
+}
+
+.o_imposition_page_thumb {
+    max-height: 140px;
+    object-fit: contain;
+    border: 1px solid #dee2e6;
+}

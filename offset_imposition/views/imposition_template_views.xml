@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="imposition_template_view_list" model="ir.ui.view">
+        <field name="name">imposition.template.list</field>
+        <field name="model">imposition.template</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="code" optional="show"/>
+                <field name="fold_catalog" optional="show"/>
+                <field name="cols"/>
+                <field name="rows"/>
+                <field name="n_up"/>
+                <field name="work_style"/>
+                <field name="pages_per_signature"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="imposition_template_view_form" model="ir.ui.view">
+        <field name="name">imposition.template.form</field>
+        <field name="model">imposition.template</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="e.g. 4-up Work &amp; Turn"/></h1>
+                    </div>
+                    <group>
+                        <group string="Signature (XJDF BinderySignature)">
+                            <field name="active" invisible="1"/>
+                            <field name="code"/>
+                            <field name="fold_catalog" placeholder="e.g. F8-7"/>
+                            <field name="cols"/>
+                            <field name="rows"/>
+                            <field name="work_style"/>
+                            <field name="n_up"/>
+                            <field name="pages_per_signature"/>
+                        </group>
+                        <group string="Stripping Defaults (XJDF StripCellParams)">
+                            <field name="bleed_default"/>
+                            <field name="gutter_x"/>
+                            <field name="gutter_y"/>
+                            <field name="allow_rotation"/>
+                        </group>
+                    </group>
+                    <group string="Description">
+                        <field name="description" nolabel="1" colspan="2"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="imposition_template_action" model="ir.actions.act_window">
+        <field name="name">Imposition Templates</field>
+        <field name="res_model">imposition.template</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

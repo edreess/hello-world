@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_imposition_root" name="Imposition"
+              web_icon="offset_imposition,static/description/icon.png"
+              groups="group_imposition_user" sequence="55"/>
+
+    <menuitem id="menu_imposition_jobs" name="Jobs"
+              parent="menu_imposition_root" action="imposition_job_action"
+              sequence="10"/>
+
+    <menuitem id="menu_imposition_config" name="Configuration"
+              parent="menu_imposition_root" groups="group_imposition_manager"
+              sequence="90"/>
+    <menuitem id="menu_imposition_presses" name="Presses"
+              parent="menu_imposition_config" action="press_config_action"
+              sequence="10"/>
+    <menuitem id="menu_imposition_templates" name="Imposition Templates"
+              parent="menu_imposition_config" action="imposition_template_action"
+              sequence="20"/>
+</odoo>
