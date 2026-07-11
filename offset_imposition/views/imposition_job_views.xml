@@ -145,7 +145,7 @@
                 <field name="press_id"/>
                 <filter string="Planned" name="planned" domain="[('state', '=', 'planned')]"/>
                 <filter string="Locked" name="locked" domain="[('state', '=', 'locked')]"/>
-                <group expand="0" string="Group By">
+                <group name="groupby">
                     <filter string="Press" name="group_press" context="{'group_by': 'press_id'}"/>
                     <filter string="Status" name="group_state" context="{'group_by': 'state'}"/>
                 </group>
