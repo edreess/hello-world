@@ -25,4 +25,10 @@
         <field name="privilege_id" ref="privilege_imposition"/>
         <field name="implied_ids" eval="[(4, ref('group_imposition_user'))]"/>
     </record>
+
+    <!-- Grant the default administrator the Manager level on install so
+         the Imposition menu is immediately visible. -->
+    <record id="base.user_admin" model="res.users">
+        <field name="group_ids" eval="[(4, ref('group_imposition_manager'))]"/>
+    </record>
 </odoo>
